@@ -4,6 +4,11 @@ import { AppRegistry, Text, View, Button } from 'react-native';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { pontuacao: 0 };
+  }
+
   componentWillMount() {
     const config = {
       apiKey: 'AIzaSyCkMo8Z3hoVquFx3U8OOIMEqCuxB7KBAj4',
@@ -40,7 +45,18 @@ class App extends Component {
     );
   }
 
+  listarDados() {
+    let pontuacao = firebase.database().ref('pontuacao');
+    //on - listener que fica monitorando se ouve alteração de dados
+    //dessa maneira, toda vez que altera algo, é disparado o evento
+    pontuacao.on('value', (snapshot) => {
+      let pontos = snapshot.val();
+      this.setState({ pontuacao: pontos });
+    });
+  }
+
   render() {
+    let { pontuacao } = this.state;
     return (
       <View>
         <Button
@@ -49,7 +65,13 @@ class App extends Component {
           color="#841584"
           accessibilityLabel="Salvar dados"
         />
-        <Text>Meu App</Text>
+        <Button
+          onPress={() => { this.listarDados(); }}
+          title="Listar dados"
+          color="#841584"
+          accessibilityLabel="Listar dados"
+        />
+        <Text>{pontuacao}</Text>
       </View>
     );
   }
