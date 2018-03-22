@@ -4,11 +4,6 @@ import { AppRegistry, Text, View, Button } from 'react-native';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { pontuacao: 0 };
-  }
-
   componentWillMount() {
     const config = {
       apiKey: 'AIzaSyCkMo8Z3hoVquFx3U8OOIMEqCuxB7KBAj4',
@@ -21,49 +16,72 @@ class App extends Component {
     firebase.initializeApp(config);
   }
 
-  salvarDados() {
-    //const database = firebase.database();
-    //para gravar e atualizar é o mesmo comando
-    //database.ref('pontuacao').set('100');
-    //database.ref('pontuacao').remove();
+  // salvarDados() {
+  //   //const database = firebase.database();
+  //   //para gravar e atualizar é o mesmo comando
+  //   //database.ref('pontuacao').set('100');
+  //   //database.ref('pontuacao').remove();
 
-    const funcionarios = firebase.database().ref('funcionarios');
+  //   const funcionarios = firebase.database().ref('funcionarios');
 
-    //funcionarios.child('001').remove();
+  //   //funcionarios.child('001').remove();
 
-    //funcionarios.child('001').child('nome').set('Kairo');
-    //funcionarios.child('002').child('nome').set('Zézinho');
-    //---------------------------------------------------------------------
-    //funcionarios.push().child('nome').set('Kairo');
-    //---------------------------------------------------------------------
-    funcionarios.push().set(
-      {
-        nome: 'Kairo',
-        altura: '1,80',
-        peso: '80KH'
+  //   //funcionarios.child('001').child('nome').set('Kairo');
+  //   //funcionarios.child('002').child('nome').set('Zézinho');
+  //   //---------------------------------------------------------------------
+  //   //funcionarios.push().child('nome').set('Kairo');
+  //   //---------------------------------------------------------------------
+  //   funcionarios.push().set(
+  //     {
+  //       nome: 'Kairo',
+  //       altura: '1,80',
+  //       peso: '80KH'
+  //     }
+  //   );
+  // }
+
+  // listarDados() {
+  //   const pontuacao = firebase.database().ref('pontuacao');
+  //   //on - listener que fica monitorando se ouve alteração de dados
+  //   //dessa maneira, toda vez que altera algo, é disparado o evento
+  //   pontuacao.on('value', (snapshot) => {
+  //     const pontos = snapshot.val();
+  //     this.setState({ pontuacao: pontos });
+  //   });
+  // }
+
+  cadastrarUsuario() {
+    let email = 'kairo@gmail.com';
+    let senha = 'kairo1234';
+
+    const usuario = firebase.auth();
+
+    usuario.createUserWithEmailAndPassword(
+      email,
+      senha
+    ).catch(
+      (erro) => {
+        let mensagemErro = '';
+        if (erro.code === 'auth/weak-password') {
+          mensagemErro = 'A senha precisa ter no mínimo 6 caracteres';
+        } else {
+          mensagemErro = erro.code;
+        }
+        //err.code, erro.message
+        alert(mensagemErro);
       }
     );
   }
 
-  listarDados() {
-    let pontuacao = firebase.database().ref('pontuacao');
-    //on - listener que fica monitorando se ouve alteração de dados
-    //dessa maneira, toda vez que altera algo, é disparado o evento
-    pontuacao.on('value', (snapshot) => {
-      let pontos = snapshot.val();
-      this.setState({ pontuacao: pontos });
-    });
-  }
-
   render() {
-    let { pontuacao } = this.state;
+    // const { pontuacao } = this.state;
     return (
       <View>
         <Button
-          onPress={() => { this.salvarDados(); }}
-          title="Salvar dados"
+          onPress={() => { this.cadastrarUsuario(); }}
+          title="Cadastrar Usuário"
           color="#841584"
-          accessibilityLabel="Salvar dados"
+          accessibilityLabel="Cadastrar Usuário"
         />
         <Button
           onPress={() => { this.listarDados(); }}
@@ -71,7 +89,7 @@ class App extends Component {
           color="#841584"
           accessibilityLabel="Listar dados"
         />
-        <Text>{pontuacao}</Text>
+        {/* <Text>{pontuacao}</Text> */}
       </View>
     );
   }
