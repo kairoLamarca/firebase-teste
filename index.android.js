@@ -73,6 +73,28 @@ class App extends Component {
     );
   }
 
+  verificarUsuarioLogado() {
+    const usuario = firebase.auth();
+
+    usuario.onAuthStateChanged(
+      (usuarioAtual) => {
+        if (usuarioAtual) {
+          alert('Usuário está logado');
+        } else {
+          alert('Usuário não está logado');
+        }
+      }
+    );
+
+    /*const usuarioAtual = usuario.currentUser;
+
+    if (usuarioAtual) {
+      alert('Usuário está logado');
+    } else {
+      alert('Usuário não está logado');
+    }*/
+  }
+
   render() {
     // const { pontuacao } = this.state;
     return (
@@ -84,10 +106,10 @@ class App extends Component {
           accessibilityLabel="Cadastrar Usuário"
         />
         <Button
-          onPress={() => { this.listarDados(); }}
-          title="Listar dados"
+          onPress={() => { this.verificarUsuarioLogado(); }}
+          title="Verificar usuário logado"
           color="#841584"
-          accessibilityLabel="Listar dados"
+          accessibilityLabel="Verificar usuário logado"
         />
         {/* <Text>{pontuacao}</Text> */}
       </View>
