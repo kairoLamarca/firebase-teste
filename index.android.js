@@ -10,7 +10,7 @@ class App extends Component {
       authDomain: 'configuracaofirebasereac-dfb42.firebaseapp.com',
       databaseURL: 'https://configuracaofirebasereac-dfb42.firebaseio.com',
       projectId: 'configuracaofirebasereac-dfb42',
-      storageBucket: '',
+      storageBucket: 'configuracaofirebasereac-dfb42.appspot.com',
       messagingSenderId: '76905310869'
     };
     firebase.initializeApp(config);
@@ -95,6 +95,26 @@ class App extends Component {
     }*/
   }
 
+  deslogarUsuario() {
+    const usuario = firebase.auth();
+
+    usuario.signOut();
+  }
+
+  logarUsuario() {
+    const email = 'kairo@gmail.com';
+    const senha = 'kairo123';
+
+    const usuario = firebase.auth();
+
+    usuario.signInWithEmailAndPassword(email, senha)
+      .catch(
+        (erro) => {
+          alert(erro.message);
+        }
+      );
+  }
+
   render() {
     // const { pontuacao } = this.state;
     return (
@@ -112,6 +132,19 @@ class App extends Component {
           accessibilityLabel="Verificar usuário logado"
         />
         {/* <Text>{pontuacao}</Text> */}
+        <Button
+          onPress={() => { this.deslogarUsuario(); }}
+          title="Deslogar Usuário"
+          color="#841584"
+          accessibilityLabel="Deslogar Usuário"
+        />
+
+        <Button
+          onPress={() => { this.logarUsuario(); }}
+          title="Logar Usuário"
+          color="#841584"
+          accessibilityLabel="Logar Usuário"
+        />
       </View>
     );
   }
