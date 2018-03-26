@@ -103,7 +103,7 @@ class App extends Component {
 
   logarUsuario() {
     const email = 'kairo@gmail.com';
-    const senha = 'kairo123';
+    const senha = 'kairo1234';
 
     const usuario = firebase.auth();
 

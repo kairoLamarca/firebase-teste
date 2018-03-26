@@ -9,3 +9,5 @@ cria o arquivo .eslintrc com o seguint código
 adb shell input keyevent 46 46 //simula o double R para atualizar a aplicação direto no smartphone
 
 npm install --save firebase
+
+adb shell input keyevent 82 // ctrl + M
